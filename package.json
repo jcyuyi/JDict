@@ -1,0 +1,19 @@
+{
+  "name": "JDict",
+  "version": "1.0.0",
+  "description": "A minimal Electron application of Japanese Dictionary",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Electron",
+    "Japanese",
+    "Dictionary"
+  ],
+  "author": "Jcyuyi",
+  "license": "The MIT License (MIT)",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}

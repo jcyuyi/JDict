@@ -1,0 +1,43 @@
+body {
+    min-width: 300px;
+    min-height: 200px;
+}
+
+#main-input {
+    margin: 20px;
+}
+
+#main-result {
+    margin: 20px;
+}
+
+.list-group {
+    margin: 0;
+}
+
+.def-explain {
+    font-style: italic;;
+}
+
+.hj-result-tips {
+    font-size: 20px;
+}
+
+.sentence {
+    margin: 0;
+}
+
+.btn-copy {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 15px;
+}
+
+.loading-image {
+    width: 15px;
+}
+
+.btn-image {
+    width: 15px;
+}
