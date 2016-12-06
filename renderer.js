@@ -24,10 +24,16 @@ ipcRenderer.on('search-event', (event, arg) => {
     search(arg);
 });
 
+const dic_goo = require('./dic/goo.js');
+
+function prepSearch() {
+    $('.results').empty();
+    $('.results-message').show()
+    $('.results-message').html("<img class=\"loading-image\" src=\"./img/loading.svg\">Loding...");
+}
+
 function search(word) {
-    $('#hj-results').empty();
-    $('#hj-message').show()
-    $('#hj-message').html("<img class=\"loading-image\" src=\"./img/loading.svg\">Loding...");
+    prepSearch()
     $.get("http://dict.hjenglish.com/jp/jc/" + word, null, function(data) {
         var words = $(data).find(".main_container .jp_word_comment");
         words.each(function(index) {
@@ -40,6 +46,14 @@ function search(word) {
             $('#hj-message').hide();
         }
     }, "html");
+    dic_goo.search(word,function(w) {
+        if (w.length == 0) {
+            $('#goo-message').html("Not Found");
+        }else {
+            $('#goo-message').hide();
+        }
+        addWord(w, 'goo');
+    });
 }
 
 function defsToString(defs) {
@@ -49,7 +63,7 @@ function defsToString(defs) {
         var def = defs[i];
         result += def.explain;
         result += "\n"
-        if (def.sentences.length > 0) {
+        if (def.sentences && def.sentences.length > 0) {
             var j,len2;
             var sentences = def.sentences;
             console.log(sentences.length);
@@ -65,7 +79,16 @@ function defsToString(defs) {
 
 function copyToClipboard(word) {
     const {clipboard} = require('electron')
-    var tips = word.kana + word.tone + "  " + word.tip;
+    var tips = "";
+    if (word.kana) {
+        tips += word.kana;
+    }
+    if (word.tone) {
+        tips += word.tone;
+    }
+    if (word.tip) {
+        tips += "  " + word.tip;
+    }
     var defs = defsToString(word.defs)
     clipboard.writeText(word.jp + '\n' + tips + '\n' + defs)
 }
@@ -91,6 +114,24 @@ function addWord(word, type) {
             copyToClipboard(word);
         });
         $('#hj-results').append(result);
+    } else if (type === 'goo') {
+        var result = $("<div class=\"goo-result list-group-item\"></div>");
+        // header
+        var header = $("<h3 class=\"goo-result-heading list-group-item-heading\"></h3>");
+        header.append("<span>" +  word.jp + "</span>");
+        // tip
+        var tips =  word.tip;
+        header.append("<span class=\"goo-result-tips list-group-item-text\">" + tips + "</span>");
+        result.append(header);
+        var defs_html = defsToHtml(word.defs);
+        result.append(defs_html);
+        // add copy
+        var copy_btn = $("<button class=\"btn-copy btn btn-sm btn-default\"> Copy </button> ");
+        result.append(copy_btn);
+        copy_btn.on("click", function() {
+            copyToClipboard(word);
+        });
+        $('#goo-results').append(result);
     }
 }
 
@@ -101,7 +142,7 @@ function defsToHtml(defs) {
     for (i = 0, len = defs.length; i < len; i++) {
         var def = defs[i];
         result.append("<p class=\"def-explain\">" + def.explain + "</p>");
-        if (def.sentences.length > 0) {
+        if (def.sentences && def.sentences.length > 0) {
             var sents_html = sentencesToHtml(def.sentences);
             result.append(sents_html);
         }
