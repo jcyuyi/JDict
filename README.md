@@ -1,17 +1,25 @@
 # JDict
 
-A minimal Electron application of Japanese Dictionary
+A [Electron](http://electron.atom.io/) application. of Japanese Dictionary
 
-Use hujiang Japanese Dictionary
+Use Online Japanese Dictionary:
+
+- [沪江小d - hjenglish](http://dict.hjenglish.com/jp/)
+- [goo辞書 ](http://dictionary.goo.ne.jp)
 
 Only for learning purpose
 
-## To Use
+## Install
 ```
 ### Install dependencies
 npm install
 ### Run the app
 npm start
+```
+
+## Http server
+```
+curl -G -v "http://localhost:8080/search" --data-urlencode "word={query}"
 ```
 
 ## Copyright & License

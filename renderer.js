@@ -25,6 +25,7 @@ ipcRenderer.on('search-event', (event, arg) => {
 });
 
 const dic_goo = require('./dic/goo.js');
+const dic_hj  = require('./dic/hj.js');
 
 function prepSearch() {
     $('.results').empty();
@@ -32,27 +33,27 @@ function prepSearch() {
     $('.results-message').html("<img class=\"loading-image\" src=\"./img/loading.svg\">Loding...");
 }
 
-function search(word) {
+function search(text) {
     prepSearch()
-    $.get("http://dict.hjenglish.com/jp/jc/" + word, null, function(data) {
-        var words = $(data).find(".main_container .jp_word_comment");
-        words.each(function(index) {
-            var word = processWord($(this), 'hj');
-            addWord(word, 'hj');
-        });
+    dic_hj.search(text, function(words) {
         if (words.length == 0) {
             $('#hj-message').html("Not Found");
         }else {
             $('#hj-message').hide();
         }
-    }, "html");
-    dic_goo.search(word,function(w) {
-        if (w.length == 0) {
+        words.forEach(function(word) {
+            addWord(word, 'hj');
+        });
+    });
+    dic_goo.search(text,function(words) {
+        if (words.length == 0) {
             $('#goo-message').html("Not Found");
         }else {
             $('#goo-message').hide();
         }
-        addWord(w, 'goo');
+        words.forEach(function(word) {
+            addWord(word, 'goo');
+        });
     });
 }
 
@@ -95,49 +96,42 @@ function copyToClipboard(word) {
 
 function addWord(word, type) {
     if (type === 'hj') {
-        var result = $("<div class=\"hj-result list-group-item\"></div>");
-        // add header
-        var header = $("<h3 class=\"hj-result-heading list-group-item-heading\"></h3>");
-        header.append("<span>" +  word.jp + "</span>");
-        // add tips
-        var tips = word.kana + word.tone + "  " + word.tip;
-        header.append("<span class=\"hj-result-tips list-group-item-text\">" + tips + "</span>");
-        result.append(header);
-        // add definations
-        var defs_html = defsToHtml(word.defs);
-        console.log(defs_html);
-        result.append(defs_html);
-        // add copy
-        var copy_btn = $("<button class=\"btn-copy btn btn-sm btn-default\"> Copy </button> ");
-        result.append(copy_btn);
-        copy_btn.on("click", function() {
-            copyToClipboard(word);
-        });
+        var result = wordToHtml(word);
         $('#hj-results').append(result);
     } else if (type === 'goo') {
-        var result = $("<div class=\"goo-result list-group-item\"></div>");
-        // header
-        var header = $("<h3 class=\"goo-result-heading list-group-item-heading\"></h3>");
-        header.append("<span>" +  word.jp + "</span>");
-        // tip
-        var tips =  word.tip;
-        header.append("<span class=\"goo-result-tips list-group-item-text\">" + tips + "</span>");
-        result.append(header);
-        var defs_html = defsToHtml(word.defs);
-        result.append(defs_html);
-        // add copy
-        var copy_btn = $("<button class=\"btn-copy btn btn-sm btn-default\"> Copy </button> ");
-        result.append(copy_btn);
-        copy_btn.on("click", function() {
-            copyToClipboard(word);
-        });
+        var result = wordToHtml(word);
         $('#goo-results').append(result);
     }
+}
+
+function wordToHtml(word) {
+    var result = $("<div class=\"result list-group-item\"></div>");
+    // add header
+    var header = $("<h3 class=\"result-heading list-group-item-heading\"></h3>");
+    header.append("<span>" +  word.jp + "</span>");
+    // add tips
+    var tips = word.kana + word.tone + "  " + word.tip;
+    header.append("<span class=\"result-tips list-group-item-text\">" + tips + "</span>");
+    result.append(header);
+    // add definations
+    var defs_html = defsToHtml(word.defs);
+    console.log(defs_html);
+    result.append(defs_html);
+    // add copy
+    var copy_btn = $("<button class=\"btn-copy btn btn-sm btn-default\"> Copy </button> ");
+    result.append(copy_btn);
+    copy_btn.on("click", function() {
+        copyToClipboard(word);
+    });
+    return result;
 }
 
 function defsToHtml(defs) {
     var result = $("<div class=\"defs\"></div>")
     //defs [{ explain: "abc", sentences: {jp:"jp", cn:"cn"} }]
+    if (defs  === undefined) {
+        return result;
+    }
     var i,len
     for (i = 0, len = defs.length; i < len; i++) {
         var def = defs[i];
@@ -162,59 +156,4 @@ function sentencesToHtml(sentences) {
         result.append(sentence)
     }
     return result;
-}
-
-function processWord(w, type) {
-    if (type === 'hj') {
-        var jp   = w.find(".jpword").text();
-        var kana = w.find("span[id^='kana']").text();
-        var tone = w.find(".tone_jp").text();
-        var tip  = w.find(".tip_content_item.big_type").text();
-        var defs = []; // {explain: , sentences: }
-        // for every def:
-        w.find(".jp_definition_com .flag").each(function(index){
-            var divs = $(this).children();
-            // get explain
-            var explain = divs.first().text();
-            // get sentences
-            var sentences = []; // {jp:"",ch:""}
-            if (divs.length >= 2) {
-                var cmd_sent = divs.find(".cmd_sent");
-                if (cmd_sent.length == 0) {
-                    var sens = divs.last().html().split("<br>")
-                    for (var i = 0; i < sens.length; i++) {
-                        var sen_split = sens[i].replace(/<.*?>/g, "").replace(/GetTTSVoice\(.*?\);/g, "").split("/");
-                        //console.log(sen_split)
-                        var sen_jp = sen_split[0];
-                        var sen_cn = sen_split[1];
-                        if (sen_jp === undefined || sen_cn=== undefined) {
-                            continue;
-                        }
-                        var sentence = { jp: sen_jp, cn: sen_cn };
-                        sentences.push(sentence);
-                    }
-                }
-                else {
-                    cmd_sent.each(function(index) {
-                        var sen_jp = $(this).find(".cmd_sent_en").text().replace(/GetTTSVoice\(.*?\);/g, "");
-                        var sen_cn = $(this).find(".cmd_sent_cn").text();
-                        var sentence = { jp: sen_jp, cn: sen_cn };
-                        sentences.push(sentence);
-                    });
-                }
-            }
-            defs.push({explain: explain, sentences: sentences});
-        });
-
-        var word = {
-            jp:jp,
-            kana:kana,
-            tone:tone,
-            tip:tip,
-            defs:defs
-        };
-
-        console.log(word);
-        return word;
-    }
 }

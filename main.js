@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const querystring = require('querystring');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -68,16 +69,18 @@ const PORT=8080;
 //We need a function which handles requests and send response
 function handleRequest(request, response){
     var urlParts = require('url').parse(request.url);
-    if (urlParts.pathname === '/query') {
+    //search?word=単語
+    if (urlParts.pathname === '/search') {
         var q = decodeURIComponent(urlParts.query)
+        var word = querystring.parse(q).word;
         // /query?name=ryan
         if (mainWindow === null) {
           createWindow();
           mainWindow.webContents.on('did-finish-load', function() {
-               mainWindow.webContents.send('search-event' , q);
+               mainWindow.webContents.send('search-event' , word);
           });
         }
-        mainWindow.webContents.send('search-event' , q);
+        mainWindow.webContents.send('search-event' , word);
         mainWindow.focus();
     }
     response.end('Success');
