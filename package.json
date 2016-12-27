@@ -1,6 +1,6 @@
 {
   "name": "JDict",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A minimal Electron application of Japanese Dictionary",
   "main": "main.js",
   "scripts": {
