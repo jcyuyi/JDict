@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "debug": "electron --debug=5858 ."
+    "debug": "electron --debug=5858 .",
+    "dev": "nodemon --exec npm start"
   },
   "keywords": [
     "Electron",
@@ -16,5 +17,6 @@
   "license": "The MIT License (MIT)",
   "devDependencies": {
     "electron": "^1.4.1"
-  }
+  },
+  "dependencies": {}
 }
