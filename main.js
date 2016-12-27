@@ -1,4 +1,5 @@
 const electron = require('electron')
+const {Menu} = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -14,11 +15,16 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      minWidth: 600,
+      minHeight: 400
+      })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
+    pathname: path.join(__dirname, 'app/index.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -73,7 +79,7 @@ function handleRequest(request, response){
     if (urlParts.pathname === '/search') {
         var q = decodeURIComponent(urlParts.query)
         var word = querystring.parse(q).word;
-        // /query?name=ryan
+        // open closed window in OSX
         if (mainWindow === null) {
           createWindow();
           mainWindow.webContents.on('did-finish-load', function() {
@@ -85,8 +91,6 @@ function handleRequest(request, response){
     }
     response.end('Success');
 }
-
-
 
 //Create a server
 var server = http.createServer(handleRequest);

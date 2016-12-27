@@ -1,0 +1,95 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-width: 20rem;
+    min-height: 15rem;
+}
+
+#sidebar-left {
+    height: 100%;
+    background: #233445;
+    color: aliceblue;
+    width: 13rem;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.sidebar-list {
+    list-style-type: none;
+    width: 13rem;
+    padding: 0;
+}
+
+.sidebar-list-item {
+    font-size: 2rem;
+    width: 13rem;
+    margin-bottom: .1rem;
+    padding: 1rem 0 1rem 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sidebar-list-item:hover {
+    background-color: #3d5a78;
+}
+
+.sidebar-list-item-selected {
+    background-color: #3d5a78;
+}
+
+#content {
+    margin-left: 13rem;
+    min-width: 30rem;
+    min-height: 30rem;
+}
+
+#main-input {
+    padding: .7rem;
+}
+
+.result-page {
+    padding: 0;
+}
+
+.panel, .panel-heading{
+    border-radius: 0;
+}
+
+.list-group {
+    margin: 0;
+}
+
+.def-explain {
+    font-size: 1.5rem;
+}
+
+.hj-result-tips {
+    font-size: 1rem;
+}
+
+.sentence {
+    margin: 0;
+}
+
+.btn-copy {
+    float: right;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    overflow: auto;
+}
+
+.loading-image {
+    width: 1.5rem;
+}
+
+.btn-image {
+    width: 1.5rem;
+}
