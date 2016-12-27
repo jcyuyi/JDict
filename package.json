@@ -1,11 +1,12 @@
 {
   "name": "JDict",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A minimal Electron application of Japanese Dictionary",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "debug": "electron --debug=5858 ."
+    "debug": "electron --debug=5858 .",
+    "dev": "nodemon --exec npm start"
   },
   "keywords": [
     "Electron",
@@ -16,5 +17,6 @@
   "license": "The MIT License (MIT)",
   "devDependencies": {
     "electron": "^1.4.1"
-  }
+  },
+  "dependencies": {}
 }
