@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>JP Dict Search</title>
+    <title>JDict</title>
     <!-- Bootstrap -->
     <link href="./lib/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- CSS -->
@@ -11,6 +11,14 @@
 </head>
 
 <body>
+    <div id="sidebar-left">
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item sidebar-list-item-selected">Home</li>
+          <li class="sidebar-list-item">HJ</li>
+          <li class="sidebar-list-item">Goo</li>
+        </ul>
+    </div>
+    <div id="content">
     <div id="main-input">
             <div class="input-group">
                 <input id="input-search-word" type="text" class="form-control" placeholder="Search for...">
@@ -22,31 +30,62 @@
     </div>
     <!-- /main-input -->
 
-<div id="main-result">
-    <div class="hj-results panel panel-info">
-        <div id="hj-results-panel-head" class="panel-heading results-panel-head">
-            <h3 class="panel-title">
-                Hujiang JP
-            </h3>
+    <div id="Home" class="result-page">
+        <div class="hj-results-panel panel panel-info">
+            <div class="panel-heading results-panel-head hj-results-panel-head">
+                <h3 class="panel-title">
+                    Hujiang JP
+                </h3>
+            </div>
+            <div class="panel-body hj-results-panel-body" >
+                <div class="results-message hj-message">Ready</div>
+                <div class="list-group results hj-results"></div>
+            </div>
         </div>
-        <div id="hj-results-panel-body" class="panel-body" >
-            <div id="hj-message" class="results-message">Ready</div>
-            <div id="hj-results" class="list-group results"></div>
+        <div class="goo-results-panel panel panel-info">
+            <div class="panel-heading goo-results-panel-head">
+                <h3 class="panel-title">
+                    Goo JP
+                </h3>
+            </div>
+            <div class="panel-body goo-results-panel-body" >
+                <div class="results-message goo-message">Ready</div>
+                <div class="list-group results goo-results"></div>
+            </div>
         </div>
     </div>
-    <div class="goo-results panel panel-info">
-        <div id="goo-results-panel-head" class="panel-heading">
-            <h3 class="panel-title">
-                Goo JP
-            </h3>
-        </div>
-        <div id="goo-results-panel-body" class="panel-body" >
-            <div id="goo-message"class="results-message">Ready</div>
-            <div id="goo-results" class="list-group results"></div>
+    <!-- /Home -->
+    <div id="HJ" class="result-page tab-page" style="display:none">
+        <div class="hj-results-panel panel panel-info">
+            <div class="panel-heading results-panel-head hj-results-panel-head">
+                <h3 class="panel-title">
+                    Hujiang JP
+                </h3>
+            </div>
+            <div class="panel-body hj-results-panel-body" >
+                <div class="results-message hj-message">Ready</div>
+                <div class="list-group results hj-results"></div>
+            </div>
         </div>
     </div>
-</div>
-<!-- /main-result -->
+    <!-- /HJ -->
+    <!-- /Home -->
+    <div id="Goo" class="result-page tab-page" style="display:none">
+        <div class="goo-results-panel panel panel-info">
+            <div class="panel-heading goo-results-panel-head">
+                <h3 class="panel-title">
+                    Goo JP
+                </h3>
+            </div>
+            <div class="panel-body goo-results-panel-body" >
+                <div class="results-message goo-message">Ready</div>
+                <div class="list-group results goo-results"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /Goo -->
+    </div>
+    <!-- /content -->
 </body>
 <script>
     // jquery
