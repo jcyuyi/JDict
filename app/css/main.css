@@ -61,6 +61,15 @@ body {
     border-radius: 0;
 }
 
+.results-message {
+    position: relative;
+    float: right;;
+    top: -1.7rem;
+    right: 1rem;
+    font-size: 1.3rem;
+    overflow: auto;
+}
+
 .list-group {
     margin: 0;
 }

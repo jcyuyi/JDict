@@ -4,6 +4,7 @@
 
 const dic_goo = require('./dic/goo.js');
 const dic_hj  = require('./dic/hj.js');
+const dic_weblio = require('./dic/weblio.js');
 const w2h  = require('./js/word2html.js');
 
 // result panel toggle
@@ -70,6 +71,10 @@ function search(text) {
     dic_goo.search(text,function(words) {
         currentWords['goo'] = words;
         showResult('goo');
+    });
+    dic_weblio.search(text,function(words) {
+        currentWords['weblio'] = words;
+        showResult('weblio');
     });
 }
 
