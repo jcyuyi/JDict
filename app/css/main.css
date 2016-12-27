@@ -30,7 +30,6 @@ body {
 .sidebar-list-item {
     font-size: 2rem;
     width: 13rem;
-    margin-bottom: .1rem;
     padding: 1rem 0 1rem 0;
     text-align: center;
     cursor: pointer;
@@ -41,7 +40,7 @@ body {
 }
 
 .sidebar-list-item-selected {
-    background-color: #3d5a78;
+    background-color: #305167;
 }
 
 #content {

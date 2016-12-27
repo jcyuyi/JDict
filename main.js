@@ -21,6 +21,7 @@ function createWindow () {
       minWidth: 600,
       minHeight: 400
       })
+  mainWindow.setTitle("JDict") 
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
